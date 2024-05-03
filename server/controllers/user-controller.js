@@ -66,3 +66,59 @@ export const register = async (req, res, next) => {
   const { password: pass, ...other } = newUser._doc;
   res.status(201).json({ ...other, accessToken });
 };
+
+//LOGIN
+export const login = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ username: username });
+  } catch (err) {
+    const error = new HttpError("Logining in failed. Try again later.", 500);
+
+    return next(error);
+  }
+
+  if (!existingUser) {
+    const error = new HttpError(
+      "Invalid credentials, could not log you in.",
+      403
+    );
+
+    return next(error);
+  }
+
+  const hashedPassword = CryptoJS.AES.decrypt(
+    existingUser.password,
+    process.env.PASSWORD_SECRET_KEY.toString()
+  );
+  const decryptedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+  if (decryptedPassword !== password) {
+    return next(
+      new HttpError(
+        "Could not log you in, please check your credentials and try again.",
+        500
+      )
+    );
+  }
+  let accessToken;
+  try {
+    accessToken = jwt.sign(
+      {
+        id: existingUser._id,
+        isAdmin: existingUser.isAdmin,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "3d" }
+    );
+  } catch (err) {
+    return next(
+      new HttpError("Logging in failed with jwt,try again later.", 500)
+    );
+  }
+
+  const { password: pass, ...other } = existingUser._doc;
+  res.status(200).json({ ...other, accessToken });
+};

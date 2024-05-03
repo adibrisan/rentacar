@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { register } from "../controllers/user-controller.js";
+import { register, login } from "../controllers/user-controller.js";
 import { check } from "express-validator";
 
 const authRouter = Router();
 
+//REGISTER
 authRouter.post(
   "/register",
   [
@@ -13,5 +14,8 @@ authRouter.post(
   ],
   register
 );
+
+//LOGIN
+authRouter.post("/login", login);
 
 export default authRouter;
