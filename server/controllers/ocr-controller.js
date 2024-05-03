@@ -15,7 +15,6 @@ export const processLicense = (req, res) => {
 
   const pythonScriptPath =
     "D:/DIZERTATIE/doc_scanner/cardNER/prediction_file.py";
-  const img = "D:/DIZERTATIE/doc_scanner/cardNER/lic/generated_license_15.png";
   exec(
     `python ${pythonScriptPath} D:/DIZERTATIE/doc_scanner/cardNER/out.png`,
     (error, stdout, stderr) => {
