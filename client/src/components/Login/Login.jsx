@@ -1,17 +1,18 @@
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import useUserStore from "../../store/useUserStore";
 import api from "../../utils/axiosInstance";
 import styles from "./Login.module.css";
 
 const Login = () => {
+  const { setCurrentUser } = useUserStore();
   const onFinish = async (values) => {
-    // console.log("Received values of form: ", values);
     const { username, password } = values;
     try {
       const response = await api.post("/auth/login", { username, password });
       console.log(response);
       if (response.statusText === "OK") {
-        // localStorage.setItem("accessToken",response.data.accessToken);
+        setCurrentUser(response.data);
       }
     } catch (err) {
       console.log(err);
