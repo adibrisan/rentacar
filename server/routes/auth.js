@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login } from "../controllers/user-controller.js";
+import { register, login, logout } from "../controllers/user-controller.js";
 import { check } from "express-validator";
 
 const authRouter = Router();
@@ -17,5 +17,8 @@ authRouter.post(
 
 //LOGIN
 authRouter.post("/login", login);
+
+//LOGOUT
+authRouter.post("/logout", logout);
 
 export default authRouter;

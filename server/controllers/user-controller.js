@@ -42,8 +42,15 @@ export const register = async (req, res, next) => {
       `${process.env.PASSWORD_SECRET_KEY}`
     ),
   });
-
+  const refreshToken = jwt.sign(
+    {
+      id: newUser._id,
+      isAdmin: newUser?.isAdmin ?? false,
+    },
+    process.env.REFRESH_TOKEN_SECRET
+  );
   try {
+    newUser.refreshToken = refreshToken;
     await newUser.save();
   } catch (err) {
     next(new HttpError("Could not create user, please try again.", 500));
@@ -53,10 +60,10 @@ export const register = async (req, res, next) => {
     accessToken = jwt.sign(
       {
         id: newUser._id,
-        isAdmin: newUser.isAdmin,
+        isAdmin: newUser?.isAdmin ?? false,
       },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "3d" }
+      { expiresIn: "5m" }
     );
   } catch (err) {
     return next(
@@ -64,6 +71,10 @@ export const register = async (req, res, next) => {
     );
   }
   const { password: pass, ...other } = newUser._doc;
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+  });
   res.status(201).json({ ...other, accessToken });
 };
 
@@ -108,17 +119,47 @@ export const login = async (req, res, next) => {
     accessToken = jwt.sign(
       {
         id: existingUser._id,
-        isAdmin: existingUser.isAdmin,
+        isAdmin: existingUser?.isAdmin ?? false,
       },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "3d" }
+      { expiresIn: "5m" }
     );
   } catch (err) {
     return next(
       new HttpError("Logging in failed with jwt,try again later.", 500)
     );
   }
-
+  const refreshToken = existingUser.refreshToken;
+  await existingUser.save();
   const { password: pass, ...other } = existingUser._doc;
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: 365 * 24 * 60 * 60 * 1000,
+  });
   res.status(200).json({ ...other, accessToken });
+};
+
+//GET ALL USERS
+export const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}, "-password");
+    res.status(200).json(users);
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching users failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+};
+
+//LOGOUT
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("refreshToken");
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Logout internal error." });
+  }
 };

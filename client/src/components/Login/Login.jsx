@@ -1,14 +1,26 @@
 import { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { AUTH_URL } from "../../utils/appConstants";
+import api from "../../utils/axiosInstance";
 import styles from "./Login.module.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values) => {
+    // console.log("Received values of form: ", values);
+    const { username, password } = values;
+    try {
+      const response = await api.post("/auth/login", { username, password });
+      console.log(response);
+      if (response.statusText === "OK") {
+        // localStorage.setItem("accessToken",response.data.accessToken);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -31,7 +43,7 @@ const Login = () => {
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
+          // onChange={(e) => setUsername(e.target.value)}
         />
       </Form.Item>
       <Form.Item
@@ -47,7 +59,7 @@ const Login = () => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
+          // onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Item>
       <Form.Item>
