@@ -1,14 +1,9 @@
-import { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { AUTH_URL } from "../../utils/appConstants";
 import api from "../../utils/axiosInstance";
 import styles from "./Login.module.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const onFinish = async (values) => {
     // console.log("Received values of form: ", values);
     const { username, password } = values;
