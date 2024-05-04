@@ -44,8 +44,12 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const verifyTokenAndAuthorization = (req, res, next) => {
-  verifyToken(req, res, () => {
-    if (req.user || req.user.isAdmin) {
+  verifyToken(req, res, async () => {
+    const currentUser = await User.findById(req.user.id).lean().exec();
+    if (
+      (req?.user && req.user.id === currentUser._id.toString()) ||
+      req.user.isAdmin
+    ) {
       next();
     } else {
       res.status(403).json("You don't have permission...");
