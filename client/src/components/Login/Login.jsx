@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import useUserStore from "../../store/useUserStore";
+import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 import api from "../../utils/axiosInstance";
+import toast from "react-hot-toast";
 import styles from "./Login.module.css";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { setIsError } = useErrorHandlingStore();
   const { setCurrentUser } = useUserStore();
   const onFinish = async (values) => {
     const { username, password } = values;
@@ -14,8 +18,13 @@ const Login = () => {
       console.log(response);
       if (response.statusText === "OK") {
         setCurrentUser(response.data);
+        toast.success("Successfully signed in !");
+        navigate("/");
+      } else {
+        setIsError({ isError: true, errorMessage: "Failed to login." });
       }
     } catch (err) {
+      setIsError({ isError: true, errorMessage: "Failed to login." });
       console.log(err);
     }
   };
