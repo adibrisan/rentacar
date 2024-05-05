@@ -1,6 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Spin } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LockOutlined,
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+} from "@ant-design/icons";
 import useUserStore from "../../store/useUserStore";
 import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 import api from "../../utils/axiosInstance";
@@ -67,7 +72,7 @@ const Login = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
