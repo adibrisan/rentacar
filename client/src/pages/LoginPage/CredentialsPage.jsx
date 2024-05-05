@@ -6,7 +6,6 @@ import styles from "./LoginPage.module.css";
 
 const CredentialsPage = () => {
   const location = useLocation();
-  console.log(location);
   return (
     <Card
       className={styles.loginRegisterCard}

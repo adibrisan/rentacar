@@ -56,7 +56,6 @@ const Login = () => {
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
-            // onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Item>
         <Form.Item
@@ -72,7 +71,6 @@ const Login = () => {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
-            // onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
         <Form.Item>
