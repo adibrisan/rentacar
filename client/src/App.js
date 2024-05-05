@@ -38,6 +38,7 @@ function App() {
           <Route index path="/" element={<HomePage />} />
           <Route path="/signin" element={<CredentialsPage />} />
           <Route path="/signup" element={<CredentialsPage />} />
+          <Route path="/forgot-password" element={<CredentialsPage />} />
           <Route path="/test" element={<TestFeature />} />
           <Route path="*" element={<NotFound />}></Route>
         </Route>

@@ -75,7 +75,7 @@ const Login = () => {
         </Form.Item>
         <Form.Item>
           <div className={styles.rememberOrForgotPassword}>
-            <Link to="">Forgot password</Link>
+            <Link to="/forgot-password">Forgot password</Link>
           </div>
         </Form.Item>
 
