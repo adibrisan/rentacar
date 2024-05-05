@@ -37,6 +37,7 @@ function App() {
         <Route to="/" element={<Layout />}>
           <Route index path="/" element={<HomePage />} />
           <Route path="/signin" element={<CredentialsPage />} />
+          <Route path="/signup" element={<CredentialsPage />} />
           <Route path="/test" element={<TestFeature />} />
           <Route path="*" element={<NotFound />}></Route>
         </Route>
