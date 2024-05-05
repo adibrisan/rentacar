@@ -3,17 +3,20 @@ import api from "../utils/axiosInstance";
 import useUserStore from "../store/useUserStore";
 
 const usePersistUser = () => {
-  const { setCurrentUser } = useUserStore();
+  const { setCurrentUser, setIsLoadingUserData, rememberUser } = useUserStore();
   useEffect(() => {
     const handleRefreshToken = async () => {
       try {
+        setIsLoadingUserData(true);
         const response = await api.post("/refresh-token");
         if (response.statusText === "OK") {
-          console.log(response.data);
+          console.log("persisted", response.data);
           setCurrentUser(response.data);
         }
+        setIsLoadingUserData(false);
       } catch (err) {
         console.log(err);
+        setIsLoadingUserData(false);
       }
     };
     handleRefreshToken();

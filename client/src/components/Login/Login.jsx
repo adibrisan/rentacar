@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import useUserStore from "../../store/useUserStore";
@@ -60,11 +61,7 @@ const Login = () => {
       </Form.Item>
       <Form.Item>
         <div className={styles.rememberOrForgotPassword}>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox style={{ fontSize: "18px" }}>Remember me</Checkbox>
-          </Form.Item>
-
-          <a href="">Forgot password</a>
+          <Link to="">Forgot password</Link>
         </div>
       </Form.Item>
 
@@ -74,7 +71,7 @@ const Login = () => {
             Log in
           </Button>
           <div>
-            Or <a href="">register now!</a>
+            Or <Link to="">register now!</Link>
           </div>
         </div>
       </Form.Item>
