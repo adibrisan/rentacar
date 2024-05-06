@@ -1,11 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Spin } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import useUserStore from "../../store/useUserStore";
 import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 import api from "../../utils/axiosInstance";
@@ -14,6 +9,7 @@ import styles from "./Login.module.css";
 import { useState } from "react";
 
 const Login = () => {
+  const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { setIsError } = useErrorHandlingStore();
@@ -43,6 +39,7 @@ const Login = () => {
   return (
     <Spin spinning={isLoading}>
       <Form
+        form={form}
         name="normal_login"
         initialValues={{
           remember: true,

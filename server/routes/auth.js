@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { register, login, logout } from "../controllers/user-controller.js";
+import {
+  register,
+  login,
+  logout,
+  forgotPassword,
+  resetPassword,
+} from "../controllers/user-controller.js";
 import { check } from "express-validator";
 
 const authRouter = Router();
@@ -20,5 +26,11 @@ authRouter.post("/login", login);
 
 //LOGOUT
 authRouter.post("/logout", logout);
+
+//FORGOT PASSWORD
+authRouter.post("/forgot-password", forgotPassword);
+
+//RESET PASSWORD
+authRouter.post("/reset-password/:resetToken", resetPassword);
 
 export default authRouter;

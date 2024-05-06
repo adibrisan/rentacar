@@ -8,6 +8,7 @@ import api from "../../utils/axiosInstance";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const [form] = Form.useForm();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { setIsError } = useErrorHandlingStore();
@@ -17,6 +18,7 @@ const Register = () => {
     const { username, email, password } = values;
     try {
       setIsLoading(true);
+      form.resetFields();
       const response = await api.post("/auth/register", {
         username,
         email,
@@ -41,6 +43,7 @@ const Register = () => {
   return (
     <Spin spinning={isLoading}>
       <Form
+        form={form}
         name="normal_register"
         initialValues={{
           remember: true,
