@@ -1,4 +1,4 @@
-import { Card, Image, Space } from "antd";
+import { Card, Divider, Image, Space } from "antd";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
@@ -26,6 +26,8 @@ const CarCard = () => {
   return (
     <Card
       hoverable
+      title="VW"
+      extra={<div>25 eur</div>}
       style={{
         width: 340,
       }}
