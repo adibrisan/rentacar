@@ -41,6 +41,7 @@ function App() {
           <Route path="/signup" element={<CredentialsPage />} />
           <Route path="/forgot-password" element={<CredentialsPage />} />
           <Route path="/test" element={<TestFeature />} />
+          <Route path="/car-details/:carId" />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />

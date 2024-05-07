@@ -1,14 +1,15 @@
 import { Row, Col } from "antd";
 import CarCard from "../../components/CarCard/CarCard";
+import useGetCarList from "../../hooks/useGetCarList";
 
 const HomePage = () => {
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  const cars = useGetCarList();
   return (
     <main>
-      <Row style={{ margin: "25px 25px" }} gutter={20}>
-        {arr.map((item) => (
-          <Col style={{ marginTop: "20px" }}>
-            <CarCard />
+      <Row justify="center" style={{ margin: "25px 25px" }} gutter={20}>
+        {cars.map((car) => (
+          <Col key={car._id} style={{ marginTop: "20px" }}>
+            <CarCard carDetails={car} />
           </Col>
         ))}
       </Row>

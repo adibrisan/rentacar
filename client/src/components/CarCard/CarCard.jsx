@@ -1,9 +1,9 @@
-import { Card, Divider, Image, Space } from "antd";
+import { Card, Image, Space } from "antd";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 
-const CarCard = () => {
+const CarCard = ({ carDetails }) => {
   const toolBarRenderer = {
     toolbarRender: (
       _,
@@ -26,20 +26,28 @@ const CarCard = () => {
   return (
     <Card
       hoverable
-      title="VW"
-      extra={<div>25 eur</div>}
+      title={carDetails.brand}
+      extra={
+        <div style={{ color: "#1677FF", fontSize: "20px" }}>
+          {carDetails.pricePerDay}&nbsp;&euro; / day
+        </div>
+      }
       style={{
         width: 340,
       }}
       cover={
         <Image
-          src="https://www.discovercars.com/images/car/8343/200.png"
+          src={carDetails.imageURL}
           placeholder="Loading..."
           preview={toolBarRenderer}
+          height={200}
         />
       }
     >
-      <Meta title="Polo" description="Rent this car at an unbelievable price" />
+      <Meta
+        title={carDetails.name}
+        description="Rent this car at an unbelievable price"
+      />
     </Card>
   );
 };
