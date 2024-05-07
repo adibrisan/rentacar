@@ -1,7 +1,12 @@
+import CarCard from "../../components/CarCard/CarCard";
+
 const HomePage = () => {
   return (
     <main>
-      <div>BODY CONTENT HERE</div>
+      <CarCard />
+      <CarCard />
+      <CarCard />
+      <CarCard />
     </main>
   );
 };
