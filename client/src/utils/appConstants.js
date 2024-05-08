@@ -6,3 +6,5 @@ export const TOAST_CONFIG = {
     fontSize: "20px",
   },
 };
+
+export const DATE_FORMAT = "DD-MM-YYYY";
