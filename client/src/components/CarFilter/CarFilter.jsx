@@ -1,4 +1,5 @@
-import { Row, Col, DatePicker, Cascader } from "antd";
+import { Row, Col, DatePicker, Spin } from "antd";
+import SelectFilter from "./SelectFilter";
 import useCarMultiFilter from "../../store/useCarMultiFilter";
 import useGetCarFilters from "../../hooks/useGetCarFilters";
 import { DATE_FORMAT } from "../../utils/appConstants";
@@ -6,8 +7,8 @@ import { DATE_FORMAT } from "../../utils/appConstants";
 const { RangePicker } = DatePicker;
 const CarFilter = () => {
   const { setRentPeriod } = useCarMultiFilter();
-  const { carFilterTreeData, isLoading: isCarFiltersLoading } =
-    useGetCarFilters();
+  const { carFilters, isLoading: isCarFiltersLoading } = useGetCarFilters();
+
   return (
     <Row
       style={{ margin: "25px 25px" }}
@@ -15,19 +16,18 @@ const CarFilter = () => {
       align="middle"
       gutter={100}
     >
-      <Col>
-        <Cascader
-          placeholder="Please select"
-          options={carFilterTreeData}
-          loading={isCarFiltersLoading}
-          multiple
-          size="large"
-          maxTagCount={3}
-          changeOnSelect={true}
-          onChange={(_value, selectedOptions) => console.log(selectedOptions)}
-          style={{ width: "300px" }}
-        />
-      </Col>
+      {isCarFiltersLoading ? (
+        <Spin spinning={isCarFiltersLoading} />
+      ) : (
+        Object.entries(carFilters).map(([filter, filterValues]) => {
+          return (
+            <Col key={filter}>
+              <SelectFilter label={filter} values={filterValues} />
+            </Col>
+          );
+        })
+      )}
+
       <Col>
         <RangePicker
           size="large"

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import api from "../utils/axiosInstance";
 import useErrorHandlingStore from "../store/useErrorHandlingStore";
 
@@ -36,37 +36,7 @@ const useGetCarFilters = () => {
     };
     getCarFilters();
   }, []);
-
-  const carFilterTreeData = useMemo(
-    () => [
-      {
-        label: "Location",
-        value: "location",
-        children: carFilters.locations.map((filter) => ({
-          label: filter,
-          value: filter,
-        })),
-      },
-      {
-        label: "Seats",
-        value: "seats",
-        children: carFilters.seats.map((filter) => ({
-          label: filter,
-          value: filter,
-        })),
-      },
-      {
-        label: "Types",
-        value: "type",
-        children: carFilters.types.map((filter) => ({
-          label: filter,
-          value: filter,
-        })),
-      },
-    ],
-    [carFilters]
-  );
-  return { carFilterTreeData, isLoading };
+  return { carFilters, isLoading };
 };
 
 export default useGetCarFilters;

@@ -16,16 +16,16 @@ export const getCarFilters = async (req, res) => {
       {
         $group: {
           _id: null,
-          locations: { $addToSet: "$location" },
-          types: { $addToSet: "$type" },
+          location: { $addToSet: "$location" },
+          type: { $addToSet: "$type" },
           seats: { $addToSet: "$seats" },
         },
       },
       {
         $project: {
           _id: 0,
-          locations: 1,
-          types: 1,
+          location: 1,
+          type: 1,
           seats: 1,
         },
       },
