@@ -5,4 +5,12 @@ const api = axios.create({
   withCredentials: true,
 });
 
+api.interceptors.request.use((config) => {
+  if (config.method === "get" && config.data) {
+    config.params = config.data;
+    delete config.data;
+  }
+  return config;
+});
+
 export default api;

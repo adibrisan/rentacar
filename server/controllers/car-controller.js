@@ -1,8 +1,12 @@
 import { Car } from "../models/Car.js";
+import { carFilterHandler } from "../utils/helper.js";
 
+// GET ALL CARS
 export const getAllCars = async (req, res) => {
+  const filter = req.query;
+  const mongoQueryFilter = carFilterHandler(filter);
   try {
-    const cars = await Car.find({});
+    const cars = await Car.find(mongoQueryFilter);
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error getting cars." });
