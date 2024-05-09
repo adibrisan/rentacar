@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { Card, Image, Space } from "antd";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 
 const CarCard = ({ carDetails }) => {
+  const navigate = useNavigate();
   const toolBarRenderer = {
     toolbarRender: (
       _,
@@ -38,11 +40,12 @@ const CarCard = ({ carDetails }) => {
       cover={
         <Image
           src={carDetails.imageURL}
-          placeholder="Loading..."
-          preview={toolBarRenderer}
+          placeholder="Loading car image..."
+          preview={false}
           height={200}
         />
       }
+      onClick={() => navigate(`/car-details/${carDetails._id}`)}
     >
       <Meta
         title={carDetails.name}

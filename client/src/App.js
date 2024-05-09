@@ -6,6 +6,7 @@ import useUserStore from "./store/useUserStore";
 import useErrorHandlingStore from "./store/useErrorHandlingStore";
 import Layout from "./pages/Layout/Layout";
 import HomePage from "./pages/HomePage/HomePage";
+import CarDetailsPage from "./pages/CarDetailsPage/CarDetailsPage";
 import CredentialsPage from "./pages/CredentialsPage/CredentialsPage";
 import TestFeature from "./pages/TestFeature/TestFeature";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
@@ -41,7 +42,7 @@ function App() {
           <Route path="/signup" element={<CredentialsPage />} />
           <Route path="/forgot-password" element={<CredentialsPage />} />
           <Route path="/test" element={<TestFeature />} />
-          <Route path="/car-details/:carId" />
+          <Route path="/car-details/:carId" element={<CarDetailsPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />

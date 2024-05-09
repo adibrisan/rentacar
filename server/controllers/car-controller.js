@@ -13,6 +13,17 @@ export const getAllCars = async (req, res) => {
   }
 };
 
+//GET CAR BY ID
+export const getCarById = async (req, res) => {
+  const id = req.params.carId;
+  try {
+    const car = await Car.findById(id);
+    res.status(200).json(car);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error getting car." });
+  }
+};
+
 //GET CAR FILTERS
 export const getCarFilters = async (req, res) => {
   try {
