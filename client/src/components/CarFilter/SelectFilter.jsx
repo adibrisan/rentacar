@@ -7,6 +7,7 @@ const SelectFilter = ({ label, values }) => {
     value: item,
     label: item,
   }));
+  console.log(multiCarFilter);
   const handleOnChange = (value) => {
     const filter = {
       label,
@@ -16,6 +17,7 @@ const SelectFilter = ({ label, values }) => {
   };
   return (
     <Select
+      value={multiCarFilter[label]}
       onChange={handleOnChange}
       placeholder={`Select ${label} filter`}
       options={options}
