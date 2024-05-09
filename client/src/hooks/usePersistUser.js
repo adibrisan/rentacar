@@ -3,7 +3,7 @@ import api from "../utils/axiosInstance";
 import useUserStore from "../store/useUserStore";
 
 const usePersistUser = () => {
-  const { setCurrentUser, setIsLoadingUserData, rememberUser } = useUserStore();
+  const { setCurrentUser, setIsLoadingUserData } = useUserStore();
   useEffect(() => {
     const handleRefreshToken = async () => {
       try {

@@ -35,6 +35,7 @@ const useGetCarFilters = () => {
       }
     };
     getCarFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return { carFilters, isLoading };
 };
