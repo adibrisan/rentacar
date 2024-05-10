@@ -1,12 +1,8 @@
-import { Row, Col, DatePicker, Spin } from "antd";
+import { Row, Col, Spin } from "antd";
 import SelectFilter from "./SelectFilter";
-import useCarMultiFilter from "../../store/useCarMultiFilter";
 import useGetCarFilters from "../../hooks/useGetCarFilters";
-import { DATE_FORMAT } from "../../utils/appConstants";
 
-const { RangePicker } = DatePicker;
 const CarFilter = () => {
-  const { setRentPeriod } = useCarMultiFilter();
   const { carFilters, isLoading: isCarFiltersLoading } = useGetCarFilters();
 
   return (
@@ -27,14 +23,6 @@ const CarFilter = () => {
           );
         })
       )}
-
-      <Col>
-        <RangePicker
-          size="large"
-          format={DATE_FORMAT}
-          onChange={(_date, dateString) => setRentPeriod(dateString)}
-        />
-      </Col>
     </Row>
   );
 };

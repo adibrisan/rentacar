@@ -11,6 +11,7 @@ import {
   DatePicker,
   Button,
   InputNumber,
+  Popover,
 } from "antd";
 import useGetCarById from "../../hooks/useGetCarById";
 import { IoLogoModelS } from "react-icons/io";
@@ -21,7 +22,9 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FcCalendar } from "react-icons/fc";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 import { DATE_FORMAT } from "../../utils/appConstants";
+import useCarMultiFilter from "../../store/useCarMultiFilter";
 import styles from "./CarDetailsPage.module.css";
+import { useEffect, useState } from "react";
 
 const { useBreakpoint } = Grid;
 const { Title, Text } = Typography;
@@ -48,9 +51,19 @@ const toolBarRenderer = {
 };
 
 const CarDetailsPage = () => {
+  const { setRentPeriod, rentPeriod } = useCarMultiFilter();
+  const [orderNumber, setOrderNumber] = useState(1);
+  const [isInvalid, setIsInvalid] = useState(false);
   const { sm } = useBreakpoint();
   const { carId } = useParams();
   const { carDetails, isLoading } = useGetCarById(carId);
+
+  useEffect(() => {
+    if (rentPeriod[0] && rentPeriod[1]) {
+      setIsInvalid(false);
+    }
+  }, [rentPeriod]);
+
   return isLoading ? (
     <Spin spinning={isLoading} />
   ) : (
@@ -115,12 +128,23 @@ const CarDetailsPage = () => {
               <label className={styles.periodLabel} htmlFor="rangePicker">
                 Select a date range for renting period
               </label>
-              <RangePicker
-                id="rangePicker"
-                size="large"
-                format={DATE_FORMAT}
-                // onChange={(_date, dateString) => setRentPeriod(dateString)}
-              />
+              <Popover
+                open={isInvalid}
+                title={<div style={{ fontSize: "20px" }}>Error message</div>}
+                content={
+                  <div style={{ fontSize: "20px", color: "red" }}>
+                    Please pick a range for your rental.
+                  </div>
+                }
+              >
+                <RangePicker
+                  id="rangePicker"
+                  size="large"
+                  format={DATE_FORMAT}
+                  onChange={(_date, dateString) => setRentPeriod(dateString)}
+                  status={isInvalid ? "error" : undefined}
+                />
+              </Popover>
             </Flex>
             <Flex align="center" gap={20}>
               <label className={styles.periodLabel} htmlFor="orderNumber">
@@ -132,6 +156,7 @@ const CarDetailsPage = () => {
                 min={1}
                 max={15}
                 defaultValue={1}
+                onChange={(value) => setOrderNumber(value)}
               />
             </Flex>
           </Flex>
@@ -152,7 +177,15 @@ const CarDetailsPage = () => {
         >
           <Col span={24}>
             <Flex justify="center">
-              <Button type="primary" size="large">
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => {
+                  if (!rentPeriod[0] && !rentPeriod[1]) {
+                    setIsInvalid(true);
+                  }
+                }}
+              >
                 I want this car
               </Button>
             </Flex>
