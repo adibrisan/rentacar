@@ -12,6 +12,7 @@ import {
   Button,
   InputNumber,
   Popover,
+  Tag,
 } from "antd";
 import useGetCarById from "../../hooks/useGetCarById";
 import { IoLogoModelS } from "react-icons/io";
@@ -124,6 +125,22 @@ const CarDetailsPage = () => {
         </Col>
         <Col xs={24} sm={24} md={24} lg={9}>
           <Flex vertical gap={20}>
+            <Flex align="center" gap={20}>
+              <label className={styles.periodLabel} htmlFor="rangePicker">
+                Price per day:
+              </label>
+              <Tag style={{ fontSize: "20px" }} color="red-inverse">
+                {carDetails.pricePerDay} &euro;
+              </Tag>
+            </Flex>
+            <Flex align="center" gap={20}>
+              <label className={styles.periodLabel} htmlFor="rangePicker">
+                Price per week:
+              </label>
+              <Tag style={{ fontSize: "20px" }} color="green-inverse">
+                {carDetails.pricePerWeek} &euro;
+              </Tag>
+            </Flex>
             <Flex align="center" gap={20}>
               <label className={styles.periodLabel} htmlFor="rangePicker">
                 Select a date range for renting period
