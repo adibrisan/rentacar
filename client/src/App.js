@@ -10,6 +10,7 @@ import CarDetailsPage from "./pages/CarDetailsPage/CarDetailsPage";
 import CredentialsPage from "./pages/CredentialsPage/CredentialsPage";
 import TestFeature from "./pages/TestFeature/TestFeature";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import CartPage from "./pages/CartPage/CartPage";
 import NotFound from "./pages/NotFound/NotFound";
 import { Toaster } from "react-hot-toast";
 import { TOAST_CONFIG } from "./utils/appConstants";
@@ -43,6 +44,7 @@ function App() {
           <Route path="/forgot-password" element={<CredentialsPage />} />
           <Route path="/test" element={<TestFeature />} />
           <Route path="/car-details/:carId" element={<CarDetailsPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
