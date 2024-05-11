@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Upload, Button, Space, List, Row, Col, Spin, Input, Form } from "antd";
+import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 
 const ProfilePage = () => {
+  const { setIsError } = useErrorHandlingStore();
+  const [form] = Form.useForm();
   const [base64Image, setBase64Image] = useState(null);
   const [userData, setUserData] = useState([]);
   const [isLoadingImg, setIsLoadingImg] = useState(false);
@@ -38,7 +41,20 @@ const ProfilePage = () => {
           .then((data) => {
             console.log("Server response:", data);
             setUserData(JSON.parse(data));
+            const res = JSON.parse(data);
             setIsLoadingImg(false);
+            const mergedData = res?.reduce((acc, obj) => {
+              for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                  acc[key] = obj[key];
+                }
+              }
+              return acc;
+            }, {});
+            const processedData = Object.entries(mergedData);
+            processedData.forEach(([key, value]) => {
+              form.setFieldValue(key, value);
+            });
           })
           .catch((error) => {
             setIsLoadingImg(false);
@@ -57,8 +73,19 @@ const ProfilePage = () => {
     });
   };
 
+  const onFinish = async (values) => {
+    if (!values["CATEGORY"].includes("B")) {
+      setIsError({
+        isError: true,
+        errorMessage:
+          "You have uncompleted data or your license do not meet our policies.",
+      });
+    }
+  };
+
   return (
     <Row style={{ padding: "20px" }} gutter={[30, 30]}>
+      <img src={base64Image} alt="nu" />
       <Col xs={24} md={24} lg={5}>
         <Space direction="vertical">
           <Upload beforeUpload={handleBeforeUpload} showUploadList={false}>
@@ -68,7 +95,7 @@ const ProfilePage = () => {
           </Upload>
           <List
             loading={isLoadingImg}
-            header={<div>Add license photo to auto-complete User Info</div>}
+            header={<div>Add license photo to complete User Info</div>}
             bordered
             dataSource={Object.keys(mergedData)}
             renderItem={(key) => (
@@ -81,12 +108,12 @@ const ProfilePage = () => {
       </Col>
       <Col xs={24} md={24} lg={19}>
         <Form
-          // form={form}
+          form={form}
           name="normal_register"
           initialValues={{
             remember: true,
           }}
-          // onFinish={onFinish}
+          onFinish={onFinish}
           style={{ maxWidth: "500px" }}
         >
           <Form.Item
@@ -127,7 +154,8 @@ const ProfilePage = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Expiration Date!",
+                message:
+                  "Please input your Expiration Date for driving license!",
               },
             ]}
           >
@@ -138,7 +166,7 @@ const ProfilePage = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your driving license category!",
+                message: "Please attach a photo with your driving license!",
               },
             ]}
           >
