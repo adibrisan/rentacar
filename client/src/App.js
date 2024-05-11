@@ -8,7 +8,7 @@ import Layout from "./pages/Layout/Layout";
 import HomePage from "./pages/HomePage/HomePage";
 import CarDetailsPage from "./pages/CarDetailsPage/CarDetailsPage";
 import CredentialsPage from "./pages/CredentialsPage/CredentialsPage";
-import TestFeature from "./pages/TestFeature/TestFeature";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import CartPage from "./pages/CartPage/CartPage";
 import NotFound from "./pages/NotFound/NotFound";
@@ -42,7 +42,7 @@ function App() {
           <Route path="/signin" element={<CredentialsPage />} />
           <Route path="/signup" element={<CredentialsPage />} />
           <Route path="/forgot-password" element={<CredentialsPage />} />
-          <Route path="/test" element={<TestFeature />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/car-details/:carId" element={<CarDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="*" element={<NotFound />} />

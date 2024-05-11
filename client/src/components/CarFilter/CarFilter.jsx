@@ -10,7 +10,7 @@ const CarFilter = () => {
       style={{ margin: "25px 25px" }}
       justify="center"
       align="middle"
-      gutter={100}
+      gutter={[100, 30]}
     >
       {isCarFiltersLoading ? (
         <Spin spinning={isCarFiltersLoading} />

@@ -15,8 +15,8 @@ const LeftPart = () => {
       <NavLink style={navLinkStyles} className={styles.linkStyle} to="/">
         Home
       </NavLink>
-      <NavLink style={navLinkStyles} className={styles.linkStyle} to="/test">
-        Test
+      <NavLink style={navLinkStyles} className={styles.linkStyle} to="/profile">
+        Profile
       </NavLink>
       <NavLink style={navLinkStyles} className={styles.linkStyle} to="/cart">
         <Flex align="center" gap={15}>

@@ -14,7 +14,6 @@ const Register = () => {
   const { setIsError } = useErrorHandlingStore();
   const { setCurrentUser } = useUserStore();
   const onFinish = async (values) => {
-    console.log(values);
     const { username, email, password } = values;
     try {
       setIsLoading(true);
