@@ -12,8 +12,6 @@ const setMultiCarFilter = (set) => (filter) => {
 };
 
 const useCarMultiFilter = create((set) => ({
-  rentPeriod: ["", ""],
-  setRentPeriod: (rentPeriod) => set({ rentPeriod }),
   multiCarFilter: {
     location: [],
     type: [],

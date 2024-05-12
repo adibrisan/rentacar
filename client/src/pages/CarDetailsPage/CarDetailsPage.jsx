@@ -23,9 +23,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FcCalendar } from "react-icons/fc";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 import { DATE_FORMAT } from "../../utils/appConstants";
-import useCarMultiFilter from "../../store/useCarMultiFilter";
+import useUserStore from "../../store/useUserStore";
+import useOrderStore from "../../store/useOrderStore";
 import styles from "./CarDetailsPage.module.css";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const { useBreakpoint } = Grid;
 const { Title, Text } = Typography;
@@ -52,7 +54,8 @@ const toolBarRenderer = {
 };
 
 const CarDetailsPage = () => {
-  const { setRentPeriod, rentPeriod } = useCarMultiFilter();
+  const { currentUser } = useUserStore();
+  const [rentPeriod, setRentPeriod] = useState(["", ""]);
   const [orderNumber, setOrderNumber] = useState(1);
   const [isInvalid, setIsInvalid] = useState(false);
   const { sm } = useBreakpoint();
@@ -64,6 +67,15 @@ const CarDetailsPage = () => {
       setIsInvalid(false);
     }
   }, [rentPeriod]);
+
+  const handleMakeCarOrder = () => {
+    if (!rentPeriod[0] && !rentPeriod[1]) {
+      setIsInvalid(true);
+    }
+    if (!currentUser.hasProfile) {
+      toast.error("Please update your profile !");
+    }
+  };
 
   return isLoading ? (
     <Spin spinning={isLoading} />
@@ -194,15 +206,7 @@ const CarDetailsPage = () => {
         >
           <Col span={24}>
             <Flex justify="center">
-              <Button
-                type="primary"
-                size="large"
-                onClick={() => {
-                  if (!rentPeriod[0] && !rentPeriod[1]) {
-                    setIsInvalid(true);
-                  }
-                }}
-              >
+              <Button type="primary" size="large" onClick={handleMakeCarOrder}>
                 I want this car
               </Button>
             </Flex>
