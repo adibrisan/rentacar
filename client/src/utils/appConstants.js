@@ -7,4 +7,5 @@ export const TOAST_CONFIG = {
   },
 };
 
-export const DATE_FORMAT = "DD-MM-YYYY";
+export const DATE_FORMAT = "DD.MM.YYYY";
+export const DAYS_IN_A_WEEK = 7;

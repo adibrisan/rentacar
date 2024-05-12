@@ -14,6 +14,7 @@ import {
   Popover,
   Tag,
 } from "antd";
+import moment from "moment";
 import useGetCarById from "../../hooks/useGetCarById";
 import { IoLogoModelS } from "react-icons/io";
 import { PiSeatDuotone } from "react-icons/pi";
@@ -22,9 +23,9 @@ import { TbManualGearboxFilled } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import { FcCalendar } from "react-icons/fc";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
-import { DATE_FORMAT } from "../../utils/appConstants";
+import { DATE_FORMAT, DAYS_IN_A_WEEK } from "../../utils/appConstants";
 import useUserStore from "../../store/useUserStore";
-import useOrderStore from "../../store/useOrderStore";
+// import useOrderStore from "../../store/useOrderStore";
 import styles from "./CarDetailsPage.module.css";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -61,6 +62,15 @@ const CarDetailsPage = () => {
   const { sm } = useBreakpoint();
   const { carId } = useParams();
   const { carDetails, isLoading } = useGetCarById(carId);
+  const [rentalPrice, setRentalPrice] = useState(0);
+  // const orderDetails = {
+  //   car: carDetails,
+  //   rentPeriod,
+  //   orderNumber,
+  //   userId: currentUser._id,
+  //   rentalPrice,
+  // };
+  console.log(rentalPrice);
 
   useEffect(() => {
     if (rentPeriod[0] && rentPeriod[1]) {
@@ -77,6 +87,31 @@ const CarDetailsPage = () => {
     }
   };
 
+  const handleOnChangePeriod = (_date, dateString) => {
+    setRentPeriod(dateString);
+    if (!dateString || dateString.length !== 2) {
+      setRentalPrice(0);
+      return;
+    }
+
+    const startDate = moment(dateString[0], "DD.MM.YYYY");
+    const endDate = moment(dateString[1], "DD.MM.YYYY");
+    const duration = endDate.diff(startDate, "days");
+
+    if (duration === DAYS_IN_A_WEEK) {
+      setRentalPrice(carDetails.pricePerWeek);
+    } else if (duration < DAYS_IN_A_WEEK) {
+      setRentalPrice(duration * carDetails.pricePerDay);
+    } else {
+      const weeks = Math.floor(duration / DAYS_IN_A_WEEK);
+      const remainingDays = duration % DAYS_IN_A_WEEK;
+      const totalPrice =
+        weeks * carDetails.pricePerWeek +
+        remainingDays * carDetails.pricePerDay;
+      setRentalPrice(totalPrice);
+    }
+  };
+
   return isLoading ? (
     <Spin spinning={isLoading} />
   ) : (
@@ -90,7 +125,7 @@ const CarDetailsPage = () => {
             >
               {carDetails.brand}
             </Title>
-            <Title level={!sm ? 3 : 6} style={{ color: "gray" }}>
+            <Title level={!sm ? 3 : 5} style={{ color: "gray" }}>
               {carDetails.name}
             </Title>
           </Row>
@@ -170,7 +205,7 @@ const CarDetailsPage = () => {
                   id="rangePicker"
                   size="large"
                   format={DATE_FORMAT}
-                  onChange={(_date, dateString) => setRentPeriod(dateString)}
+                  onChange={handleOnChangePeriod}
                   status={isInvalid ? "error" : undefined}
                 />
               </Popover>
