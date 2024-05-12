@@ -17,8 +17,7 @@ import useUserStore from "../../store/useUserStore";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {
-  const { currentUser } = useUserStore();
-  console.log(currentUser);
+  const { currentUser, setCurrentUser } = useUserStore();
   const { setIsError } = useErrorHandlingStore();
   const [form] = Form.useForm();
   const [base64Image, setBase64Image] = useState(null);
@@ -105,6 +104,8 @@ const ProfilePage = () => {
           console.log("code", res);
           if (res.status === 200) {
             toast.success("Updated profile !");
+            const user = { ...currentUser, ...userProfile };
+            setCurrentUser(user);
           } else {
             setIsError({
               isError: true,

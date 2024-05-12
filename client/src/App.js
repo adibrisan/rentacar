@@ -19,7 +19,6 @@ import CartPage from "./pages/CartPage/CartPage";
 import NotFound from "./pages/NotFound/NotFound";
 import { Toaster } from "react-hot-toast";
 import { TOAST_CONFIG } from "./utils/appConstants";
-import toast from "react-hot-toast";
 import styles from "./App.module.css";
 
 function App() {
