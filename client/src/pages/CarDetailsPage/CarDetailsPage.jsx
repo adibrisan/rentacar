@@ -93,7 +93,12 @@ const CarDetailsPage = () => {
     }
     try {
       if (currentUser.hasProfile && rentPeriod[0] && rentPeriod[1]) {
-        await api.post("/newOrder", orderDetails);
+        await api.post("/newOrder", orderDetails, {
+          headers: {
+            Authorization: `Bearer ${currentUser.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
       }
     } catch (err) {
       console.log(err);
