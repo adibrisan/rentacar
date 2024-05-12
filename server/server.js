@@ -7,6 +7,7 @@ import { processLicense } from "./controllers/ocr-controller.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import carRouter from "./routes/car.js";
+import { orderRouter } from "./routes/order.js";
 
 const port = 9000;
 const app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api", userRouter);
 app.use("/api", carRouter);
+app.use("/api", orderRouter);
 
 app.post("/process-image", processLicense);
 

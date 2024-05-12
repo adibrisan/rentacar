@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../../utils/axiosInstance";
 import {
   Row,
   Col,
@@ -23,12 +26,14 @@ import { TbManualGearboxFilled } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import { FcCalendar } from "react-icons/fc";
 import { ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
-import { DATE_FORMAT, DAYS_IN_A_WEEK } from "../../utils/appConstants";
+import {
+  DATE_FORMAT,
+  DAYS_IN_A_WEEK,
+  ORDER_STATUS,
+} from "../../utils/appConstants";
 import useUserStore from "../../store/useUserStore";
 // import useOrderStore from "../../store/useOrderStore";
 import styles from "./CarDetailsPage.module.css";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 const { useBreakpoint } = Grid;
 const { Title, Text } = Typography;
@@ -68,7 +73,8 @@ const CarDetailsPage = () => {
     rentPeriod,
     orderNumber,
     userId: currentUser._id,
-    rentalPrice,
+    rentalPrice: orderNumber * rentalPrice,
+    orderStatus: ORDER_STATUS.PENDING,
   };
   console.log(orderDetails);
 
@@ -78,12 +84,19 @@ const CarDetailsPage = () => {
     }
   }, [rentPeriod]);
 
-  const handleMakeCarOrder = () => {
+  const handleMakeCarOrder = async () => {
     if (!rentPeriod[0] && !rentPeriod[1]) {
       setIsInvalid(true);
     }
     if (!currentUser.hasProfile) {
       toast.error("Please update your profile !");
+    }
+    try {
+      if (currentUser.hasProfile && rentPeriod[0] && rentPeriod[1]) {
+        await api.post("/newOrder", orderDetails);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
