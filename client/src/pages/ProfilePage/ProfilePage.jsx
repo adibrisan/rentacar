@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { Upload, Button, Space, List, Row, Col, Spin, Input, Form } from "antd";
+import {
+  Upload,
+  Button,
+  Space,
+  List,
+  Row,
+  Col,
+  Spin,
+  Input,
+  Form,
+  Card,
+} from "antd";
 import api from "../../utils/axiosInstance";
 import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 import useUserStore from "../../store/useUserStore";
@@ -133,7 +144,7 @@ const ProfilePage = () => {
           />
         </Space>
       </Col>
-      <Col xs={24} md={24} lg={19}>
+      <Col xs={24} md={24} lg={7}>
         <Form
           form={form}
           name="normal_register"
@@ -208,6 +219,19 @@ const ProfilePage = () => {
           </Form.Item>
         </Form>
       </Col>
+      {currentUser.hasProfile && (
+        <Col xs={24} md={24} lg={7}>
+          <Card title="Your User Profile">
+            <ul>
+              <li>COUNTRY: {currentUser.COUNTRY}</li>
+              <li>SURNAME: {currentUser.SURNAME}</li>
+              <li>NAME: {currentUser.NAME}</li>
+              <li>EXPIRATION DATE: {currentUser.EXP}</li>
+              <li>Driving license Category: {currentUser.CATEGORY}</li>
+            </ul>
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 };

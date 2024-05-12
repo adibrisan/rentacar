@@ -1,6 +1,11 @@
 import React from "react";
 import { Alert, Spin } from "antd";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import usePersistUser from "./hooks/usePersistUser";
 import useUserStore from "./store/useUserStore";
 import useErrorHandlingStore from "./store/useErrorHandlingStore";
@@ -14,6 +19,7 @@ import CartPage from "./pages/CartPage/CartPage";
 import NotFound from "./pages/NotFound/NotFound";
 import { Toaster } from "react-hot-toast";
 import { TOAST_CONFIG } from "./utils/appConstants";
+import toast from "react-hot-toast";
 import styles from "./App.module.css";
 
 function App() {
@@ -44,9 +50,13 @@ function App() {
           <Route
             path="/profile"
             element={
-              <Spin spinning={isLoadingUserData && !currentUser}>
-                <ProfilePage />
-              </Spin>
+              !currentUser ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Spin spinning={isLoadingUserData}>
+                  <ProfilePage />
+                </Spin>
+              )
             }
           />
           <Route path="/car-details/:carId" element={<CarDetailsPage />} />
@@ -54,9 +64,13 @@ function App() {
           <Route
             path="/cart"
             element={
-              <Spin spinning={isLoadingUserData && !currentUser}>
-                <CartPage />
-              </Spin>
+              !currentUser ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Spin spinning={isLoadingUserData}>
+                  <CartPage />
+                </Spin>
+              )
             }
           />
 
