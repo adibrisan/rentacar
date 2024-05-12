@@ -40,43 +40,54 @@ function App() {
         />
       )}
       <Toaster toastOptions={TOAST_CONFIG} />
-      <Routes>
-        <Route to="/" element={<Layout />}>
-          <Route index path="/" element={<HomePage />} />
-          <Route path="/signin" element={<CredentialsPage />} />
-          <Route path="/signup" element={<CredentialsPage />} />
-          <Route path="/forgot-password" element={<CredentialsPage />} />
-          <Route
-            path="/profile"
-            element={
-              !currentUser ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Spin spinning={isLoadingUserData}>
-                  <ProfilePage />
-                </Spin>
-              )
-            }
-          />
-          <Route path="/car-details/:carId" element={<CarDetailsPage />} />
+      {isLoadingUserData ? (
+        <Spin
+          className={styles.loadingSpinner}
+          spinning={isLoadingUserData}
+          size="large"
+        />
+      ) : (
+        <Routes>
+          <Route to="/" element={<Layout />}>
+            <Route index path="/" element={<HomePage />} />
+            <Route path="/signin" element={<CredentialsPage />} />
+            <Route path="/signup" element={<CredentialsPage />} />
+            <Route path="/forgot-password" element={<CredentialsPage />} />
+            <Route
+              path="/profile"
+              element={
+                !currentUser ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <Spin spinning={isLoadingUserData}>
+                    <ProfilePage />
+                  </Spin>
+                )
+              }
+            />
+            <Route path="/car-details/:carId" element={<CarDetailsPage />} />
 
-          <Route
-            path="/cart"
-            element={
-              !currentUser ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Spin spinning={isLoadingUserData}>
-                  <CartPage />
-                </Spin>
-              )
-            }
-          />
+            <Route
+              path="/cart"
+              element={
+                !currentUser ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <Spin spinning={isLoadingUserData}>
+                    <CartPage />
+                  </Spin>
+                )
+              }
+            />
 
-          <Route path="*" element={<NotFound />} />
-        </Route>
-        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
-      </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route
+            path="/reset-password/:resetToken"
+            element={<ResetPassword />}
+          />
+        </Routes>
+      )}
     </Router>
   );
 }

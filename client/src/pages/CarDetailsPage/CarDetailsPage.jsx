@@ -63,14 +63,14 @@ const CarDetailsPage = () => {
   const { carId } = useParams();
   const { carDetails, isLoading } = useGetCarById(carId);
   const [rentalPrice, setRentalPrice] = useState(0);
-  // const orderDetails = {
-  //   car: carDetails,
-  //   rentPeriod,
-  //   orderNumber,
-  //   userId: currentUser._id,
-  //   rentalPrice,
-  // };
-  console.log(rentalPrice);
+  const orderDetails = {
+    car: carDetails,
+    rentPeriod,
+    orderNumber,
+    userId: currentUser._id,
+    rentalPrice,
+  };
+  console.log(orderDetails);
 
   useEffect(() => {
     if (rentPeriod[0] && rentPeriod[1]) {
