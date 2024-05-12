@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert } from "antd";
+import { Alert, Spin } from "antd";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import usePersistUser from "./hooks/usePersistUser";
 import useUserStore from "./store/useUserStore";
@@ -17,9 +17,8 @@ import { TOAST_CONFIG } from "./utils/appConstants";
 import styles from "./App.module.css";
 
 function App() {
-  const { isLoadingUserData } = useUserStore();
+  const { isLoadingUserData, currentUser } = useUserStore();
   const { isError, setIsError } = useErrorHandlingStore();
-  // console.log(isLoadingUserData);
   usePersistUser();
   return (
     <Router>
@@ -42,9 +41,25 @@ function App() {
           <Route path="/signin" element={<CredentialsPage />} />
           <Route path="/signup" element={<CredentialsPage />} />
           <Route path="/forgot-password" element={<CredentialsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/profile"
+            element={
+              <Spin spinning={isLoadingUserData && !currentUser}>
+                <ProfilePage />
+              </Spin>
+            }
+          />
           <Route path="/car-details/:carId" element={<CarDetailsPage />} />
-          <Route path="/cart" element={<CartPage />} />
+
+          <Route
+            path="/cart"
+            element={
+              <Spin spinning={isLoadingUserData && !currentUser}>
+                <CartPage />
+              </Spin>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />

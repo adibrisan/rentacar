@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Upload, Button, Space, List, Row, Col, Spin, Input, Form } from "antd";
+import api from "../../utils/axiosInstance";
 import useErrorHandlingStore from "../../store/useErrorHandlingStore";
+import useUserStore from "../../store/useUserStore";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
+  const { currentUser } = useUserStore();
+  console.log(currentUser);
   const { setIsError } = useErrorHandlingStore();
   const [form] = Form.useForm();
   const [base64Image, setBase64Image] = useState(null);
@@ -73,19 +78,41 @@ const ProfilePage = () => {
     });
   };
 
-  const onFinish = async (values) => {
+  const onFinish = (values) => {
     if (!values["CATEGORY"].includes("B")) {
       setIsError({
         isError: true,
         errorMessage:
           "You have uncompleted data or your license do not meet our policies.",
       });
+    } else {
+      const userProfile = { hasProfile: true, ...values };
+      console.log(userProfile, currentUser._id);
+      api
+        .put(`/updateProfile/${currentUser._id}`, userProfile)
+        .then((res) => {
+          console.log("code", res);
+          if (res.status === 200) {
+            toast.success("Updated profile !");
+          } else {
+            setIsError({
+              isError: true,
+              errorMessage: "Error updating user profile.",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsError({
+            isError: true,
+            errorMessage: "Internal server error.",
+          });
+        });
     }
   };
 
   return (
     <Row style={{ padding: "20px" }} gutter={[30, 30]}>
-      <img src={base64Image} alt="nu" />
       <Col xs={24} md={24} lg={5}>
         <Space direction="vertical">
           <Upload beforeUpload={handleBeforeUpload} showUploadList={false}>

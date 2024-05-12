@@ -231,3 +231,23 @@ export const resetPassword = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+// UPDATE PROFILE
+export const updateProfile = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: req.body },
+      { new: true }
+    )
+      .lean()
+      .exec();
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    return res.status(200).json("Updated user profile!");
+  } catch (err) {
+    return res.status(500).json({ message: `${err}` });
+  }
+};
