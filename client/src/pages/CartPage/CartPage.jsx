@@ -14,12 +14,15 @@ const CartPage = () => {
   console.log(orders);
   const columnDefs = [
     {
-      headerName: "Make",
-      field: "make",
+      headerName: "Car brand",
+      field: "car.brand",
       filter: true,
     },
-    { headerName: "Model", field: "model", filter: true },
-    { headerName: "Price", field: "price", filter: true },
+    { headerName: "Car Type", field: "car.type", filter: true },
+    { headerName: "Rent period", field: "rentPeriod", filter: true },
+    { headerName: "Order number", field: "orderNumber", filter: true },
+    { headerName: "Total Price", field: "rentalPrice", filter: true },
+    { headerName: "Status", field: "orderStatus", filter: true },
   ];
 
   const rowData = [
@@ -29,6 +32,7 @@ const CartPage = () => {
   ];
   const onGridReady = (params) => {
     params.api.sizeColumnsToFit();
+    console.log(params.api.getRenderedNodes());
   };
   const gridOptions = {
     sideBar: true,
@@ -49,7 +53,7 @@ const CartPage = () => {
         >
           <AgGridReact
             columnDefs={columnDefs}
-            rowData={rowData}
+            rowData={orders}
             onGridReady={onGridReady}
             pagination={true}
             columnMenu="legacy"

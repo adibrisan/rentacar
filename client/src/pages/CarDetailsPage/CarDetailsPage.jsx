@@ -105,6 +105,7 @@ const CarDetailsPage = () => {
       }
     } catch (err) {
       console.log(err);
+      toast.error("Internal server error.");
     }
   };
 
