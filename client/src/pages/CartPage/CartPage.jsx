@@ -2,6 +2,7 @@ import { Row, Col, Typography, Flex } from "antd";
 import { BsCart3 } from "react-icons/bs";
 import { AgGridReact } from "ag-grid-react";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
+import useOrderStore from "../../store/useOrderStore";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
@@ -9,6 +10,8 @@ import "ag-grid-enterprise";
 
 const { Title } = Typography;
 const CartPage = () => {
+  const { orders } = useOrderStore();
+  console.log(orders);
   const columnDefs = [
     {
       headerName: "Make",

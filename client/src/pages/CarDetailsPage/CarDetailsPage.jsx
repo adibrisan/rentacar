@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../utils/axiosInstance";
 import {
@@ -60,6 +60,7 @@ const toolBarRenderer = {
 };
 
 const CarDetailsPage = () => {
+  const navigate = useNavigate();
   const { currentUser } = useUserStore();
   const [rentPeriod, setRentPeriod] = useState(["", ""]);
   const [orderNumber, setOrderNumber] = useState(1);
@@ -72,7 +73,7 @@ const CarDetailsPage = () => {
     car: carDetails,
     rentPeriod,
     orderNumber,
-    userId: currentUser._id,
+    userId: currentUser?._id,
     rentalPrice: orderNumber * rentalPrice,
     orderStatus: ORDER_STATUS.PENDING,
   };
@@ -88,8 +89,8 @@ const CarDetailsPage = () => {
     if (!rentPeriod[0] && !rentPeriod[1]) {
       setIsInvalid(true);
     }
-    if (!currentUser.hasProfile) {
-      toast.error("Please update your profile !");
+    if (!currentUser?.hasProfile) {
+      toast.error("Please login and update your profile !");
     }
     try {
       if (currentUser.hasProfile && rentPeriod[0] && rentPeriod[1]) {
@@ -99,6 +100,8 @@ const CarDetailsPage = () => {
             "Content-Type": "application/json",
           },
         });
+        toast.success("Succesfully made order !");
+        navigate("/");
       }
     } catch (err) {
       console.log(err);

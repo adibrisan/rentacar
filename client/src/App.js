@@ -19,12 +19,14 @@ import CartPage from "./pages/CartPage/CartPage";
 import NotFound from "./pages/NotFound/NotFound";
 import { Toaster } from "react-hot-toast";
 import { TOAST_CONFIG } from "./utils/appConstants";
+import useGetUserOrders from "./hooks/useGetUserOrders";
 import styles from "./App.module.css";
 
 function App() {
   const { isLoadingUserData, currentUser } = useUserStore();
   const { isError, setIsError } = useErrorHandlingStore();
   usePersistUser();
+  useGetUserOrders();
   return (
     <Router>
       {isError.isError && (

@@ -165,3 +165,18 @@
     padding: 10px 20px;
   }
 }
+
+.cartIconcontainer {
+  position: relative;
+  display: inline-block;
+}
+
+.redDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
