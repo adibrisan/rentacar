@@ -223,7 +223,8 @@ const ProfilePage = () => {
       {currentUser.hasProfile && (
         <Col xs={24} md={24} lg={7}>
           <Card title="Your User Profile">
-            <ul>
+            <ul style={{ fontSize: "20px" }}>
+              <li>Username: {currentUser.username}</li>
               <li>COUNTRY: {currentUser.COUNTRY}</li>
               <li>SURNAME: {currentUser.SURNAME}</li>
               <li>NAME: {currentUser.NAME}</li>

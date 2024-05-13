@@ -7,6 +7,18 @@ export const createOrder = async (req, res) => {
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);
   } catch (err) {
-    res.status(500).json({ message: "An internal server error occurred" });
+    res.status(500).json({ message: "An internal server error occurred." });
+  }
+};
+
+//GET USER ORDERS
+export const getUserOrders = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const orders = await Order.find({ userId }).lean().exec();
+    return res.status(200).json(orders);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "An internal server error occurred." });
   }
 };
