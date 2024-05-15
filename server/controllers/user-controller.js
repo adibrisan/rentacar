@@ -77,7 +77,7 @@ export const register = async (req, res, next) => {
     httpOnly: true,
     maxAge: 365 * 24 * 60 * 60 * 1000,
   });
-  res.status(201).json({ ...other, accessToken });
+  res.status(201).json({ ...other, accessToken, refreshToken });
 };
 
 //LOGIN
