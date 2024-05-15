@@ -17,6 +17,7 @@ authRouter.post(
     check("username").not().isEmpty(),
     check("email").normalizeEmail().isEmail(),
     check("password").isLength({ min: 6 }),
+    check("phone").isLength({ min: 10, max: 10 }),
   ],
   register
 );

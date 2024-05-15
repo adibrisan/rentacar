@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Spin } from "antd";
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LockOutlined,
+  MailOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
 import useUserStore from "../../store/useUserStore";
 import useErrorHandlingStore from "../../store/useErrorHandlingStore";
 import api from "../../utils/axiosInstance";
@@ -14,7 +19,7 @@ const Register = () => {
   const { setIsError } = useErrorHandlingStore();
   const { setCurrentUser } = useUserStore();
   const onFinish = async (values) => {
-    const { username, email, password } = values;
+    const { username, email, password, phone } = values;
     try {
       setIsLoading(true);
       form.resetFields();
@@ -22,6 +27,7 @@ const Register = () => {
         username,
         email,
         password,
+        phone,
       });
       console.log(response);
       if (response.status === 201) {
@@ -90,6 +96,20 @@ const Register = () => {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
+          />
+        </Form.Item>
+        <Form.Item
+          name="phone"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Phone!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<PhoneOutlined className="site-form-item-icon" />}
+            placeholder="Phone"
           />
         </Form.Item>
         <Form.Item>

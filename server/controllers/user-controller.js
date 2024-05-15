@@ -14,7 +14,7 @@ export const register = async (req, res, next) => {
     );
   }
 
-  const { username, email, password } = req.body;
+  const { username, email, password, phone } = req.body;
 
   let existingUser;
   try {
@@ -42,6 +42,7 @@ export const register = async (req, res, next) => {
       password,
       `${process.env.PASSWORD_SECRET_KEY}`
     ),
+    phone: phone,
   });
   const refreshToken = jwt.sign(
     {

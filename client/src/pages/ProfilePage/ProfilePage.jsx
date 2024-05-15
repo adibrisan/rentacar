@@ -225,6 +225,7 @@ const ProfilePage = () => {
           <Card title="Your User Profile">
             <ul style={{ fontSize: "20px" }}>
               <li>Username: {currentUser.username}</li>
+              <li>Phone: {currentUser.phone}</li>
               <li>COUNTRY: {currentUser.COUNTRY}</li>
               <li>SURNAME: {currentUser.SURNAME}</li>
               <li>NAME: {currentUser.NAME}</li>
