@@ -3,6 +3,7 @@ import { BsCart3 } from "react-icons/bs";
 import { AgGridReact } from "ag-grid-react";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import useOrderStore from "../../store/useOrderStore";
+import { statusRenderer } from "../../utils/helper";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
@@ -21,15 +22,22 @@ const CartPage = () => {
     { headerName: "Car Type", field: "car.type", filter: true },
     { headerName: "Rent period", field: "rentPeriod", filter: true },
     { headerName: "Order number", field: "orderNumber", filter: true },
-    { headerName: "Total Price", field: "rentalPrice", filter: true },
-    { headerName: "Status", field: "orderStatus", filter: true },
+    {
+      headerName: "Total Price",
+      field: "rentalPrice",
+      cellRenderer: (params) => <span>{params.value}&nbsp;&euro;</span>,
+      filter: true,
+    },
+    {
+      headerName: "Status",
+      field: "orderStatus",
+      cellStyle: (params) => {
+        return { backgroundColor: statusRenderer(params.value) };
+      },
+      filter: true,
+    },
   ];
 
-  const rowData = [
-    { make: "Toyota", model: "Celica", price: 35000 },
-    { make: "Ford", model: "Mondeo", price: 32000 },
-    { make: "Porsche", model: "Boxster", price: 72000 },
-  ];
   const onGridReady = (params) => {
     params.api.sizeColumnsToFit();
     console.log(params.api.getRenderedNodes());
