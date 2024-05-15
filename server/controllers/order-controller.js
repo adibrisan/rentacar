@@ -29,7 +29,7 @@ export const deleteOrderById = async (req, res) => {
     const orderId = req.params.orderId;
     const response = await Order.deleteOne({ _id: orderId });
     if (response.deletedCount === 1) {
-      res.status(200).json({ message: "Document deleted successfully" });
+      res.status(204).json({ message: "Document deleted successfully" });
     } else {
       res.status(404).json({ message: "Document not found" });
     }
