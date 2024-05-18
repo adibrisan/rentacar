@@ -21,7 +21,7 @@ export const verifyToken = (req, res, next) => {
       throw new Error("Token invalid or expired !");
     }
   } catch (err) {
-    const refreshToken = req.user.refreshToken;
+    const refreshToken = req.user?.refreshToken;
     if (!refreshToken) {
       return res
         .status(401)

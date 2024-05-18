@@ -3,13 +3,18 @@ import {
   createOrder,
   getUserOrders,
   deleteOrderById,
+  getAllOrders,
 } from "../controllers/order-controller.js";
-import { verifyTokenAndAuthorization } from "../middleware/verifyToken.js";
+import {
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} from "../middleware/verifyToken.js";
 
 export const orderRouter = Router();
 
 orderRouter.post("/newOrder", verifyTokenAndAuthorization, createOrder);
 orderRouter.get("/orders/:userId", verifyTokenAndAuthorization, getUserOrders);
+orderRouter.get("/allOrders", verifyTokenAndAdmin, getAllOrders);
 orderRouter.delete(
   "/deleteOrder/:orderId",
   verifyTokenAndAuthorization,

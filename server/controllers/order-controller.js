@@ -11,6 +11,17 @@ export const createOrder = async (req, res) => {
   }
 };
 
+//GET ALL ORDERS
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).lean().exec();
+    res.status(200).json(orders);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "An internal server error occurred." });
+  }
+};
+
 //GET USER ORDERS
 export const getUserOrders = async (req, res) => {
   try {
