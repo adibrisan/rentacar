@@ -36,7 +36,7 @@ const AdminPage = () => {
       headerName: "Status",
       field: "orderStatus",
       cellRenderer: (params) => (
-        <StatusSelect rowData={params} value={params.value} />
+        <StatusSelect rowData={params.data} value={params.value} />
       ),
       cellStyle: (params) => {
         return { backgroundColor: statusRenderer(params.value) };
