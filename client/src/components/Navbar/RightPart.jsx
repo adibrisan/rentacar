@@ -8,7 +8,7 @@ const RightPart = () => {
   const navLinkStyles = ({ isActive }) => {
     return {
       fontWeight: isActive ? "bold" : "500",
-      textDecoration: isActive ? "none" : "underline",
+      textDecoration: isActive ? "underline" : "none",
     };
   };
   const handleLogout = async () => {

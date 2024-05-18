@@ -13,7 +13,7 @@ const LeftPart = () => {
   const navLinkStyles = ({ isActive }) => {
     return {
       fontWeight: isActive ? "bold" : "500",
-      textDecoration: isActive ? "none" : "underline",
+      textDecoration: isActive ? "underline" : "none",
     };
   };
   const onClickUnauthorized = () => {
@@ -28,6 +28,16 @@ const LeftPart = () => {
       </NavLink>
       {!!currentUser && (
         <>
+          {currentUser.isAdmin && (
+            <NavLink
+              style={navLinkStyles}
+              className={styles.linkStyle}
+              to="/allOrders"
+              onClick={onClickUnauthorized}
+            >
+              Admin
+            </NavLink>
+          )}
           <NavLink
             style={navLinkStyles}
             className={styles.linkStyle}

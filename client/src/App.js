@@ -16,6 +16,7 @@ import CredentialsPage from "./pages/CredentialsPage/CredentialsPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import CartPage from "./pages/CartPage/CartPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 import NotFound from "./pages/NotFound/NotFound";
 import { Toaster } from "react-hot-toast";
 import { TOAST_CONFIG } from "./utils/appConstants";
@@ -81,7 +82,18 @@ function App() {
                 )
               }
             />
-
+            <Route
+              path="/allOrders"
+              element={
+                !currentUser || !currentUser?.isAdmin ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <Spin spinning={isLoadingUserData}>
+                    <AdminPage />
+                  </Spin>
+                )
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route
