@@ -8,7 +8,7 @@ import styles from "./Navbar.module.css";
 
 const LeftPart = () => {
   const { orders } = useOrderStore();
-  const activeOrder = !!orders.find((order) => order.orderStatus === "PENDING");
+  const activeOrder = orders.some((order) => order.orderStatus === "PENDING");
   const { currentUser } = useUserStore();
   const navLinkStyles = ({ isActive }) => {
     return {

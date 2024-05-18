@@ -9,11 +9,14 @@ import "ag-grid-enterprise";
 
 import { statusRenderer } from "../../utils/helper";
 import useGetAllOrders from "../../hooks/useGetAllOrders";
+import StatusSelect from "../../components/StatusSelect/StatusSelect";
+import useOrderStore from "../../store/useOrderStore";
 
 const { Title } = Typography;
 
 const AdminPage = () => {
-  const { allOrders, isLoading } = useGetAllOrders();
+  const { allOrders } = useOrderStore();
+  const { isLoading } = useGetAllOrders();
   const columnDefs = [
     {
       headerName: "Car brand",
@@ -32,6 +35,9 @@ const AdminPage = () => {
     {
       headerName: "Status",
       field: "orderStatus",
+      cellRenderer: (params) => (
+        <StatusSelect rowData={params} value={params.value} />
+      ),
       cellStyle: (params) => {
         return { backgroundColor: statusRenderer(params.value) };
       },

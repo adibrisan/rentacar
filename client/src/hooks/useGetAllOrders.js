@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import useUserStore from "../store/useUserStore";
+import useOrderStore from "../store/useOrderStore";
 import api from "../utils/axiosInstance";
 import toast from "react-hot-toast";
 
 const useGetAllOrders = () => {
+  const { setAllOrders } = useOrderStore();
   const { currentUser } = useUserStore();
-  const [allOrders, setAllOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const useGetAllOrders = () => {
     };
     getAllOrders();
   }, [currentUser]);
-  return { allOrders, isLoading };
+  return { isLoading };
 };
 
 export default useGetAllOrders;
