@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Row, Col, Flex, Typography, Spin } from "antd";
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { AgGridReact } from "ag-grid-react";
@@ -11,16 +12,21 @@ import { statusRenderer } from "../../utils/helper";
 import useGetAllOrders from "../../hooks/useGetAllOrders";
 import StatusSelect from "../../components/StatusSelect/StatusSelect";
 import useOrderStore from "../../store/useOrderStore";
+import api from "../../utils/axiosInstance";
+import useUserStore from "../../store/useUserStore";
+import toast from "react-hot-toast";
 
 const { Title } = Typography;
 
 const AdminPage = () => {
+  const { currentUser } = useUserStore();
   const { allOrders } = useOrderStore();
   const { isLoading } = useGetAllOrders();
   const columnDefs = [
     {
       headerName: "Car brand",
       field: "car.brand",
+      cellRenderer: "agGroupCellRenderer",
       filter: true,
     },
     { headerName: "Car Type", field: "car.type", filter: true },
@@ -47,12 +53,49 @@ const AdminPage = () => {
 
   const onGridReady = (params) => {
     params.api.sizeColumnsToFit();
-    console.log(params.api.getRenderedNodes());
   };
   const gridOptions = {
     sideBar: true,
     modules: [FiltersToolPanelModule],
   };
+
+  const detailCellRendererParams = useMemo(() => {
+    return {
+      detailGridOptions: {
+        columnDefs: [
+          { field: "NAME", headerName: "Name" },
+          { field: "SURNAME", headerName: "Surname" },
+          { field: "email", headerName: "Email" },
+          { field: "phone", headerName: "Phone" },
+          { field: "CATEGORY", headerName: "License Category" },
+        ],
+        defaultColDef: {
+          flex: 1,
+        },
+      },
+      getDetailRowData: async (params) => {
+        try {
+          const userId = params.data.userId;
+          const response = await api.get(`/user/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${currentUser.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 200) {
+            const userDetails = response.data;
+            params.data.userDetails = [userDetails];
+            params.successCallback(params.data.userDetails);
+          } else {
+            toast.error("Error retrieving user details.");
+          }
+        } catch (err) {
+          console.log(err);
+          toast.error("Error retrieving user details.");
+        }
+      },
+    };
+  }, []);
 
   return (
     <Row style={{ margin: "30px 30px" }}>
@@ -76,6 +119,7 @@ const AdminPage = () => {
               columnMenu="legacy"
               gridOptions={gridOptions}
               masterDetail={true}
+              detailCellRendererParams={detailCellRendererParams}
               onToolPanelVisibleChanged={(params) =>
                 params.api.sizeColumnsToFit()
               }
