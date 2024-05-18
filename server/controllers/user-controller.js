@@ -155,6 +155,22 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
+//GET USER BY ID
+export const getUserById = async (req, res) => {
+  try {
+    const id = req.params.userId;
+    const user = await User.findById(id);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error." });
+  }
+};
+
 //LOGOUT
 export const logout = (req, res) => {
   try {

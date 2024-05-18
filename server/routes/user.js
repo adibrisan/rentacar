@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { getUsers, updateProfile } from "../controllers/user-controller.js";
+import {
+  getUsers,
+  updateProfile,
+  getUserById,
+} from "../controllers/user-controller.js";
 import {
   verifyTokenAndAdmin,
   refreshToken,
@@ -9,6 +13,7 @@ const userRouter = Router();
 
 // GET ALL USERS
 userRouter.get("/users", verifyTokenAndAdmin, getUsers);
+userRouter.get("/user/:userId", verifyTokenAndAdmin, getUserById);
 
 userRouter.post("/refresh-token", refreshToken);
 

@@ -75,6 +75,7 @@ const AdminPage = () => {
               pagination={true}
               columnMenu="legacy"
               gridOptions={gridOptions}
+              masterDetail={true}
               onToolPanelVisibleChanged={(params) =>
                 params.api.sizeColumnsToFit()
               }
