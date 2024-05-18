@@ -4,6 +4,7 @@ import {
   getUserOrders,
   deleteOrderById,
   getAllOrders,
+  updateOrderStatusById,
 } from "../controllers/order-controller.js";
 import {
   verifyTokenAndAuthorization,
@@ -19,4 +20,10 @@ orderRouter.delete(
   "/deleteOrder/:orderId",
   verifyTokenAndAuthorization,
   deleteOrderById
+);
+
+orderRouter.put(
+  "/updateOrder/:orderId",
+  verifyTokenAndAdmin,
+  updateOrderStatusById
 );

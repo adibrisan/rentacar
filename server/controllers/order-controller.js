@@ -49,3 +49,26 @@ export const deleteOrderById = async (req, res) => {
     res.status(500).json({ message: "An internal server error occurred." });
   }
 };
+
+// UPDATE ORDER STATUS BY ID
+export const updateOrderStatusById = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const { orderStatus } = req.body;
+    const response = await Order.findOneAndUpdate(
+      { _id: orderId },
+      { orderStatus },
+      { new: true }
+    )
+      .lean()
+      .exec();
+    if (response) {
+      res.status(200).json({ message: "Successfully updated order." });
+    } else {
+      res.status(404).json({ message: "Order not found." });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "An internal server error occurred." });
+  }
+};
