@@ -59,6 +59,24 @@ const AdminPage = () => {
     modules: [FiltersToolPanelModule],
   };
 
+  const onFirstDataRendered = (params) => {
+    const defaultFilterModel = {
+      orderStatus: {
+        filterType: "set",
+        values: ["PENDING"],
+      },
+    };
+
+    console.log("Applying default filter model:", defaultFilterModel);
+
+    params.api.setFilterModel(defaultFilterModel);
+
+    const appliedFilterModel = params.api.getFilterModel();
+    console.log("Applied filter model:", appliedFilterModel);
+
+    params.api.onFilterChanged();
+  };
+
   const detailCellRendererParams = useMemo(() => {
     return {
       detailGridOptions: {
@@ -115,6 +133,7 @@ const AdminPage = () => {
               columnDefs={columnDefs}
               rowData={allOrders}
               onGridReady={onGridReady}
+              onFirstDataRendered={onFirstDataRendered}
               pagination={true}
               columnMenu="legacy"
               gridOptions={gridOptions}

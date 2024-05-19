@@ -84,6 +84,23 @@ const CartPage = () => {
     sideBar: true,
     modules: [FiltersToolPanelModule],
   };
+  const onFirstDataRendered = (params) => {
+    const defaultFilterModel = {
+      orderStatus: {
+        filterType: "set",
+        values: ["PENDING"],
+      },
+    };
+
+    console.log("Applying default filter model:", defaultFilterModel);
+
+    params.api.setFilterModel(defaultFilterModel);
+
+    const appliedFilterModel = params.api.getFilterModel();
+    console.log("Applied filter model:", appliedFilterModel);
+
+    params.api.onFilterChanged();
+  };
   return (
     <Row style={{ margin: "30px 30px" }}>
       <Col span={24}>
@@ -101,6 +118,7 @@ const CartPage = () => {
             columnDefs={columnDefs}
             rowData={orders}
             onGridReady={onGridReady}
+            onFirstDataRendered={onFirstDataRendered}
             pagination={true}
             columnMenu="legacy"
             gridOptions={gridOptions}
