@@ -3,11 +3,17 @@ import { carFilterHandler } from "../utils/helper.js";
 
 // GET ALL CARS
 export const getAllCars = async (req, res) => {
-  const filter = req.query;
+  const filter = req.query.multiCarFilter;
+  const { currentPage, pageSize } = req.query.pagination;
+  const elementsToSkip = (currentPage - 1) * pageSize;
   const mongoQueryFilter = carFilterHandler(filter);
   try {
-    const cars = await Car.find(mongoQueryFilter);
-    res.status(200).json(cars);
+    const cars = Car.find(mongoQueryFilter)
+      .skip(elementsToSkip)
+      .limit(pageSize);
+    const total = Car.find(mongoQueryFilter).count();
+    const response = await Promise.all([cars, total]);
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error getting cars." });
   }

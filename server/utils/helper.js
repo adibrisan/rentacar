@@ -1,5 +1,5 @@
 export const carFilterHandler = (filter) => {
-  const queryFilter = Object.entries(filter).map(([key, value]) => {
+  const queryFilter = Object.entries(filter ?? []).map(([key, value]) => {
     if (value.length) {
       return {
         [key]: { $in: value },
