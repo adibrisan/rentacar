@@ -12,6 +12,7 @@ export const CarSchema = new mongoose.Schema({
   pricePerWeek: Number,
   location: String,
   imageURL: String,
+  isAvailable: { type: Boolean, default: true },
 });
 
 export const Car = mongoose.model("Car", CarSchema);

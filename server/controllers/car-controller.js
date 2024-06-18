@@ -60,3 +60,29 @@ export const getCarFilters = async (req, res) => {
       .json({ message: "Internal Server Error getting car filters." });
   }
 };
+
+// editCarAvailability
+export const editCarAvailability = async (req, res) => {
+  const carId = req.params.carId;
+  const isAvailable = req.body.isAvailable;
+  try {
+    const car = await Car.findOneAndUpdate(
+      { _id: carId },
+      { $set: { isAvailable } },
+      { new: true }
+    )
+      .lean()
+      .exec();
+    if (car) {
+      res
+        .status(200)
+        .json({ message: "Successfully updated the car availability !" });
+    } else {
+      res.status(404).json({ message: "Car not found." });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error getting car filters." });
+  }
+};
