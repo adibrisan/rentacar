@@ -119,7 +119,7 @@ const AdminPage = () => {
     <Row style={{ margin: "30px 30px" }}>
       <Col span={24}>
         <Flex align="center" gap={20}>
-          <Title style={{ color: "#1677FF" }}>Your cart</Title>
+          <Title style={{ color: "#1677FF" }}>User orders</Title>
           <UnorderedListOutlined size={40} color="gray" />
         </Flex>
       </Col>
