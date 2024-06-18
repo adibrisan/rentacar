@@ -211,6 +211,17 @@ const ProfilePage = () => {
           >
             <Input placeholder="Driving license Category" />
           </Form.Item>
+          <Form.Item
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your phone number!",
+              },
+            ]}
+          >
+            <Input placeholder="Phone no" />
+          </Form.Item>
           <Form.Item>
             <div>
               <Button type="primary" size="large" htmlType="submit">
