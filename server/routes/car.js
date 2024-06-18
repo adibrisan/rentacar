@@ -15,6 +15,6 @@ carRouter.get("/car-details/:carId", getCarById);
 
 carRouter.get("/carFilters", getCarFilters);
 
-carRouter.post("/car-details/:carId", verifyTokenAndAdmin, editCarAvailability);
+carRouter.put("/car-details/:carId", verifyTokenAndAdmin, editCarAvailability);
 
 export default carRouter;
