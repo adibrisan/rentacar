@@ -127,7 +127,7 @@ const AdminPage = () => {
         <Spin spinning={isLoading}>
           <div
             className="ag-theme-quartz"
-            style={{ height: "600px", width: "100%" }}
+            style={{ height: "65vh", width: "100%" }}
           >
             <AgGridReact
               columnDefs={columnDefs}
