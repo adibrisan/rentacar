@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Image } from "antd";
+import { Card, Image, Radio, Row } from "antd";
+import useUserStore from "../../store/useUserStore";
 
 const { Meta } = Card;
 
 const CarCard = ({ carDetails }) => {
   const navigate = useNavigate();
+  const { currentUser } = useUserStore();
+
+  const handleRadioChange = (e) => {};
 
   return (
     <Card
@@ -26,12 +30,30 @@ const CarCard = ({ carDetails }) => {
           height={200}
         />
       }
-      onClick={() => navigate(`/car-details/${carDetails._id}`)}
+      onClick={(e) => {
+        if (!e.target.closest(".ant-radio-button-wrapper")) {
+          navigate(`/car-details/${carDetails._id}`);
+        }
+      }}
     >
       <Meta
         title={carDetails.name}
         description="Rent this car at an unbelievable price"
       />
+      {!!currentUser && currentUser.isAdmin ? (
+        <Row justify="center" style={{ marginTop: "25px" }}>
+          <Radio.Group
+            style={{ zIndex: "10" }}
+            defaultValue={true}
+            buttonStyle="solid"
+            size="large"
+            onChange={handleRadioChange}
+          >
+            <Radio.Button value={true}>Available</Radio.Button>
+            <Radio.Button value={false}>Out Of Order</Radio.Button>
+          </Radio.Group>
+        </Row>
+      ) : null}
     </Card>
   );
 };
