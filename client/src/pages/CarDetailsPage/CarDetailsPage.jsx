@@ -17,6 +17,8 @@ import {
   Popover,
   Tag,
   Tooltip,
+  Popconfirm,
+  message,
 } from "antd";
 import moment from "moment";
 import useGetCarById from "../../hooks/useGetCarById";
@@ -79,7 +81,6 @@ const CarDetailsPage = () => {
     rentalPrice: orderNumber * rentalPrice,
     orderStatus: ORDER_STATUS.PENDING,
   };
-  console.log(orderDetails);
 
   useEffect(() => {
     if (rentPeriod[0] && rentPeriod[1]) {
@@ -136,6 +137,15 @@ const CarDetailsPage = () => {
     }
   };
 
+  const confirm = (e) => {
+    toast.success("Deleted the car");
+  };
+  const cancel = (e) => {
+    message.info("Cancelled action to delete car !");
+  };
+  const buttonStyle = {
+    fontSize: "16px",
+  };
   return isLoading ? (
     <Spin spinning={isLoading} />
   ) : (
@@ -277,6 +287,37 @@ const CarDetailsPage = () => {
               </Tooltip>
             </Flex>
           </Col>
+        </Row>
+        <Row>
+          <Popconfirm
+            okButtonProps={{ style: buttonStyle }}
+            cancelButtonProps={{ style: buttonStyle }}
+            title={
+              <div
+                style={{
+                  padding: "20px",
+                  fontSize: "16px",
+                  width: "300px",
+                  height: "auto",
+                }}
+              >
+                Delete the task
+              </div>
+            }
+            description="Are you sure to delete this car?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              style={{ marginLeft: "60px", marginTop: "50px" }}
+              size="large"
+              danger
+            >
+              Delete this car
+            </Button>
+          </Popconfirm>
         </Row>
       </Row>
     )
