@@ -149,6 +149,7 @@ const CarDetailsPage = () => {
       if (res.status === 204) {
         toast.success("Deleted the car.");
         setIsPopVisible(false);
+        navigate("/");
       } else {
         toast.error("Car not found.");
         setIsPopVisible(false);
@@ -307,39 +308,41 @@ const CarDetailsPage = () => {
             </Flex>
           </Col>
         </Row>
-        <Row>
-          <Popconfirm
-            visible={isPopVisible}
-            okButtonProps={{ style: buttonStyle }}
-            cancelButtonProps={{ style: buttonStyle }}
-            title={
-              <div
-                style={{
-                  padding: "20px",
-                  fontSize: "16px",
-                  width: "300px",
-                  height: "auto",
-                }}
-              >
-                Delete the task
-              </div>
-            }
-            description="Are you sure to delete this car?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button
-              style={{ marginLeft: "60px", marginTop: "50px" }}
-              size="large"
-              danger
-              onClick={() => setIsPopVisible(true)}
+        {currentUser?.isAdmin ? (
+          <Row>
+            <Popconfirm
+              visible={isPopVisible}
+              okButtonProps={{ style: buttonStyle }}
+              cancelButtonProps={{ style: buttonStyle }}
+              title={
+                <div
+                  style={{
+                    padding: "20px",
+                    fontSize: "16px",
+                    width: "300px",
+                    height: "auto",
+                  }}
+                >
+                  Delete the task
+                </div>
+              }
+              description="Are you sure to delete this car?"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
             >
-              Delete this car
-            </Button>
-          </Popconfirm>
-        </Row>
+              <Button
+                style={{ marginLeft: "60px", marginTop: "50px" }}
+                size="large"
+                danger
+                onClick={() => setIsPopVisible(true)}
+              >
+                Delete this car
+              </Button>
+            </Popconfirm>
+          </Row>
+        ) : null}
       </Row>
     )
   );
