@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Row, Button, Modal, Form, Input, InputNumber, Select } from "antd";
+import api from "../../utils/axiosInstance";
+import useUserStore from "../../store/useUserStore";
+import toast from "react-hot-toast";
 
 const { Option } = Select;
 const AddCarModal = () => {
+  const { currentUser } = useUserStore();
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -14,8 +18,20 @@ const AddCarModal = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log(values);
+    const car = values;
+    const res = await api.post("/car-details/newCar", car, {
+      headers: {
+        Authorization: `Bearer ${currentUser.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      toast.success("Successfully added the car !");
+    } else {
+      toast.error("An error occured.");
+    }
   };
   return (
     <Row style={{ marginTop: "20px" }}>

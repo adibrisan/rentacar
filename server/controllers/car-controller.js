@@ -86,3 +86,22 @@ export const editCarAvailability = async (req, res) => {
       .json({ message: "Internal Server Error getting car filters." });
   }
 };
+
+//Add a new car
+
+export const createNewCar = async (req, res) => {
+  const newCar = req.body;
+  try {
+    const car = new Car(newCar);
+    const savedCar = car.save();
+    if (savedCar) {
+      res.status(200).json({ message: "Successfully added the car !" });
+    } else {
+      res.status(404).json({ message: "Car not created." });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error getting car filters." });
+  }
+};

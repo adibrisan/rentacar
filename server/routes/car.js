@@ -4,6 +4,7 @@ import {
   getCarFilters,
   getCarById,
   editCarAvailability,
+  createNewCar,
 } from "../controllers/car-controller.js";
 import { verifyTokenAndAdmin } from "../middleware/verifyToken.js";
 
@@ -16,5 +17,7 @@ carRouter.get("/car-details/:carId", getCarById);
 carRouter.get("/carFilters", getCarFilters);
 
 carRouter.put("/car-details/:carId", verifyTokenAndAdmin, editCarAvailability);
+
+carRouter.post("/car-details/newCar", verifyTokenAndAdmin, createNewCar);
 
 export default carRouter;
