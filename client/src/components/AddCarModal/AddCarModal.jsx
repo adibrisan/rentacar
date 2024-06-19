@@ -14,6 +14,7 @@ const AddCarModal = () => {
   };
   const handleOk = () => {
     form.submit();
+    setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
