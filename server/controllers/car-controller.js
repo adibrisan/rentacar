@@ -88,7 +88,6 @@ export const editCarAvailability = async (req, res) => {
 };
 
 //Add a new car
-
 export const createNewCar = async (req, res) => {
   const newCar = req.body;
   try {
@@ -98,6 +97,23 @@ export const createNewCar = async (req, res) => {
       res.status(200).json({ message: "Successfully added the car !" });
     } else {
       res.status(404).json({ message: "Car not created." });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error getting car filters." });
+  }
+};
+
+//Delete car
+export const deleteCar = async (req, res) => {
+  const carId = req.params.carId;
+  try {
+    const deletedCar = await Car.findByIdAndDelete(carId);
+    if (deletedCar) {
+      res.status(204);
+    } else {
+      res.status(404).json({ message: "Car not found." });
     }
   } catch (err) {
     res
