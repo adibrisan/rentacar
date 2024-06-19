@@ -111,7 +111,7 @@ export const deleteCar = async (req, res) => {
   try {
     const deletedCar = await Car.findByIdAndDelete(carId);
     if (deletedCar) {
-      res.status(204);
+      res.status(204).send();
     } else {
       res.status(404).json({ message: "Car not found." });
     }

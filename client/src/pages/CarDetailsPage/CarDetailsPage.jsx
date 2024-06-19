@@ -63,6 +63,7 @@ const toolBarRenderer = {
 };
 
 const CarDetailsPage = () => {
+  const [isPopVisible, setIsPopVisible] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useUserStore();
   const [rentPeriod, setRentPeriod] = useState(["", ""]);
@@ -137,11 +138,29 @@ const CarDetailsPage = () => {
     }
   };
 
-  const confirm = (e) => {
-    toast.success("Deleted the car");
+  const confirm = async (e) => {
+    try {
+      const res = await api.delete(`/car-details/deleteCar/${carId}`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 204) {
+        toast.success("Deleted the car.");
+        setIsPopVisible(false);
+      } else {
+        toast.error("Car not found.");
+        setIsPopVisible(false);
+      }
+    } catch (err) {
+      setIsPopVisible(false);
+      toast.error(`${err}`);
+    }
   };
   const cancel = (e) => {
     message.info("Cancelled action to delete car !");
+    setIsPopVisible(false);
   };
   const buttonStyle = {
     fontSize: "16px",
@@ -290,6 +309,7 @@ const CarDetailsPage = () => {
         </Row>
         <Row>
           <Popconfirm
+            visible={isPopVisible}
             okButtonProps={{ style: buttonStyle }}
             cancelButtonProps={{ style: buttonStyle }}
             title={
@@ -314,6 +334,7 @@ const CarDetailsPage = () => {
               style={{ marginLeft: "60px", marginTop: "50px" }}
               size="large"
               danger
+              onClick={() => setIsPopVisible(true)}
             >
               Delete this car
             </Button>
