@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { Row, Col, Flex, Typography, Spin } from "antd";
+import { Row, Col, Flex, Typography, Spin, Button } from "antd";
 import { UnorderedListOutlined } from "@ant-design/icons";
+import AddCarModal from "../../components/AddCarModal/AddCarModal";
 import { AgGridReact } from "ag-grid-react";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 
@@ -145,6 +146,7 @@ const AdminPage = () => {
             />
           </div>
         </Spin>
+        <AddCarModal />
       </Col>
     </Row>
   );
