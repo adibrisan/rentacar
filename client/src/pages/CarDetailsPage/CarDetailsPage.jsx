@@ -16,6 +16,7 @@ import {
   InputNumber,
   Popover,
   Tag,
+  Tooltip,
 } from "antd";
 import moment from "moment";
 import useGetCarById from "../../hooks/useGetCarById";
@@ -68,6 +69,7 @@ const CarDetailsPage = () => {
   const { sm } = useBreakpoint();
   const { carId } = useParams();
   const { carDetails, isLoading } = useGetCarById(carId);
+  console.log(carDetails);
   const [rentalPrice, setRentalPrice] = useState(0);
   const orderDetails = {
     car: carDetails,
@@ -263,9 +265,16 @@ const CarDetailsPage = () => {
         >
           <Col span={24}>
             <Flex justify="center">
-              <Button type="primary" size="large" onClick={handleMakeCarOrder}>
-                I want this car
-              </Button>
+              <Tooltip visible={!carDetails?.isAvailable} title="Out of Order">
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={handleMakeCarOrder}
+                  disabled={!carDetails?.isAvailable}
+                >
+                  I want this car
+                </Button>
+              </Tooltip>
             </Flex>
           </Col>
         </Row>
