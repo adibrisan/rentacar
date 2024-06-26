@@ -8,15 +8,14 @@ export const processLicense = (req, res) => {
     ""
   );
   fs.writeFileSync(
-    "D:/DIZERTATIE/doc_scanner/cardNER/out.png",
+    `${process.env.OCR_PATH_TO_SCRIPT}/cardNER/out.png`,
     preparedBase64Image,
     "base64"
   );
 
-  const pythonScriptPath =
-    "D:/DIZERTATIE/doc_scanner/cardNER/prediction_file.py";
+  const pythonScriptPath = `${process.env.OCR_PATH_TO_SCRIPT}/cardNER/prediction_file.py`;
   exec(
-    `python ${pythonScriptPath} D:/DIZERTATIE/doc_scanner/cardNER/out.png`,
+    `python ${pythonScriptPath} ${process.env.OCR_PATH_TO_SCRIPT}/cardNER/out.png`,
     (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`);
